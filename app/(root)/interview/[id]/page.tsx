@@ -1,5 +1,5 @@
 import React from 'react'
-import {getInterviewById} from "@/lib/action/general.action";
+import {getFeedbackByInterviewId, getInterviewById} from "@/lib/action/general.action";
 import {redirect} from "next/navigation";
 import Image from "next/image";
 import {getRandomInterviewCover} from "@/lib/utils";
@@ -12,6 +12,12 @@ const Page = async ({ params }: RouteParams) => {
     const user = await getCurrentUser();
     const interview = await getInterviewById(id);
     if(!interview) redirect('/');
+
+
+    const feedback = await getFeedbackByInterviewId({
+        interviewId: id,
+        userId: user?.id!,
+    })
   return (
      <>
          <div className="flex flex-row gap-4 justify-between">
@@ -29,11 +35,12 @@ const Page = async ({ params }: RouteParams) => {
              h-fit capitalize">{interview.type}</p>
          </div>
 
-         <Agent userName={user?.name}
+         <Agent userName={user?.name || ''}
                 userId={user?.id}
                 interviewId={id}
                 type="interview"
                 questions={interview.questions}
+                feedbackId={feedback?.id}
                 />
      </>
   )
