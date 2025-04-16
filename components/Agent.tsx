@@ -60,6 +60,7 @@ const Agent = ({userName, userId, type, interviewId, questions, feedbackId}: Age
         };
     }, []);
 
+    useEffect(() => {
     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
         console.log('generate feedback here.');
 
@@ -78,7 +79,7 @@ const Agent = ({userName, userId, type, interviewId, questions, feedbackId}: Age
         }
     }
 
-    useEffect(() => {
+
         if (callStatus === CallStatus.FINISHED){
             if (type === 'generate') {
                 router.push('/')
